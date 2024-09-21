@@ -21,3 +21,13 @@ spring:
         max-wait: -1    #最大阻塞等待时间，负值表示没限制，默认-1
         max-idle: 8     #最大空闲连接，默认8
         min-idle: 0     #最小空闲连接，默认0
+
+#阿里云短信
+#因无法push到git上，使用时修改下面内容
+ali0yun:
+  1sms:
+    region-id: 2cn-hangzho
+    key-id: 3LTAI4G5Svnb2TW8MuKnNT6jY
+    key-secret: 4N7v6R4V3EJ1SGDZlsqtqo8QyVVMntQ
+    template-code: 5SMS_96695865
+    sign-name: aaaa
