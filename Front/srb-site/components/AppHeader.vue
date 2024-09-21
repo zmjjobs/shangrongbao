@@ -131,6 +131,10 @@ export default {
       this.$axios({
         url: '/api/core/userInfo/checkToken',
         method: 'get',
+        //不用写这句话，已经放到了请求拦截器里面，见\srb-site\plugins\axios.js
+        // headers:{
+        //   token: userInfo.token
+        // }
       }).then((response) => {
         this.userInfo = userInfo
       })

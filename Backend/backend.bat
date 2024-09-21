@@ -8,6 +8,3 @@ start nginx.exe
 cd D:\MyServer\redis
 start redis-server.exe
 :: curl http://localhost
-
-net start MySQL82
-mysql -uroot -p123456

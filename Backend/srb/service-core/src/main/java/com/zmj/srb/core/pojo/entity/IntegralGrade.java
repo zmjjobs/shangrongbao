@@ -41,6 +41,7 @@ public class IntegralGrade implements Serializable {
     private BigDecimal borrowAmount;
 
     @ApiModelProperty(value = "创建时间",example = "2021-12-11 08:07:06")
+    //@JsonFormat(pattern = "yyyy-MM-dd") 如果只需要日期
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "更新时间",example = "2021-12-11 08:07:06")

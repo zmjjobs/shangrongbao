@@ -107,7 +107,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         if (userInfoQuery != null) {
             userInfoQueryWrapper = new QueryWrapper<>();
             userInfoQueryWrapper
-                    .eq(StringUtils.isNotBlank(userInfoQuery.getMobile()),"mobile",userInfoQuery.getMobile().trim())
+                    .eq(StringUtils.isNotBlank(userInfoQuery.getMobile()),"mobile",userInfoQuery.getMobile())
                     .eq(userInfoQuery.getStatus() != null,"status",userInfoQuery.getStatus())
                     .eq(userInfoQuery.getUserType() != null,"user_type",userInfoQuery.getUserType());
         }

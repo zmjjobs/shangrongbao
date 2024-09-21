@@ -83,7 +83,7 @@
       :current-page="page"
       :total="total"
       :page-size="limit"
-      :page-sizes="[10, 20]"
+      :page-sizes="[1, 10, 20]"
       style="padding: 30px 0"
       layout="total, sizes, prev, pager, next, jumper"
       @size-change="changePageSize"
@@ -91,3 +91,54 @@
     />
   </div>
 </template>
+<script>
+import userInfoApi from '@/api/core/user-info'
+
+export default {
+  data() {
+    return {
+      list: null, // 数据列表
+      total: 0, // 数据库中的总记录数
+      page: 1, // 默认页码
+      limit: 10, // 每页记录数
+      searchObj: {}, // 查询条件
+      loginRecordList: [], //会员登录日志
+      dialogTableVisible: false, //对话框是否显示
+    }
+  },
+
+  created() {
+    // 当页面加载时获取数据
+    this.fetchData()
+  },
+
+  methods: {
+    fetchData() {
+      userInfoApi
+        .getPageList(this.page, this.limit, this.searchObj)
+        .then((response) => {
+          this.list = response.data.pageModel.records
+          this.total = response.data.pageModel.total
+        })
+    },
+
+    // 每页记录数改变，size：回调参数，表示当前选中的“每页条数”
+    changePageSize(size) {
+      this.limit = size
+      this.fetchData()
+    },
+
+    // 改变页码，page：回调参数，表示当前选中的“页码”
+    changeCurrentPage(page) {
+      this.page = page
+      this.fetchData()
+    },
+
+    // 重置表单
+    resetData() {
+      this.searchObj = {}
+      this.fetchData()
+    },
+  },
+}
+</script>

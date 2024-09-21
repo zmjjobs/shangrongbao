@@ -1,5 +1,6 @@
 package com.zmj.srb.core.controller.admin;
 
+
 import com.zmj.srb.common.result.R;
 import com.zmj.srb.common.result.ResponseEnum;
 import com.zmj.srb.common.util.Assert;
@@ -10,12 +11,19 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api(tags = "积分等级管理")
-@CrossOrigin
+/**
+ * <p>
+ * 积分等级表 前端控制器
+ * </p>
+ *
+ * @author zhumengjun
+ * @since 2023-11-07
+ */
+@Api(tags="积分等级管理")
+@CrossOrigin //自动跨域
 @RestController
 @Slf4j
 @RequestMapping("/admin/core/integralGrade")
@@ -24,67 +32,64 @@ public class AdminIntegralGradeController {
     @Resource
     private IntegralGradeService integralGradeService;
 
-    @ApiOperation("积分等级列表")
     @GetMapping("/list")
+    @ApiOperation("积分等级列表")
     public R listAll(){
-        log.info("开始查询积分等级列表");
         List<IntegralGrade> list = integralGradeService.list();
-        return R.ok().data("list", list);
-    }
-
-    @ApiOperation(value = "根据ID删除积分等级记录",notes = "逻辑删除")
-    @DeleteMapping("/remove/{id}")
-    public R removeById(
-            @ApiParam(value = "数据id", required = true, example = "1")
-            @PathVariable Long id){
-        boolean result = integralGradeService.removeById(id);
-        if(result){
-            //return R.setResult(ResponseEnum.UPLOAD_ERROR);
-            return R.ok().message("删除成功");
-        }else{
-            return R.error().message("删除失败");
+        if (list == null || list.size() == 0) {
+            return R.setR(ResponseEnum.QUERY_NO_DATA);
         }
+        return R.ok().data("list",list).message("获取列表成功");
     }
 
-    @ApiOperation("新增积分等级")
+    @ApiOperation(value = "根据ID删除积分等级",notes = "逻辑删除")
+    @DeleteMapping("remove/{id}")
+    public R remove(
+            @ApiParam(value = "记录ID",example = "100",required = true)
+            @PathVariable Integer id) {
+        boolean b = integralGradeService.removeById(id);
+        if (b) {
+            return R.ok().message("删除成功").data("result",true);
+        }
+        return R.error().message("删除失败").data("result",false);
+    }
+
     @PostMapping("/save")
+    @ApiOperation("新增积分等级")
     public R save(
-            @ApiParam(value = "积分等级对象", required = true)
-            @RequestBody IntegralGrade integralGrade){
-
-        //如果借款额度为空就手动抛出一个自定义的异常！
-        Assert.greaterThanZero(integralGrade.getBorrowAmount(), ResponseEnum.BORROW_AMOUNT_NULL_ERROR);
-        boolean result = integralGradeService.save(integralGrade);
-        if (result) {
-            return R.ok().message("保存成功");
+            @ApiParam(value = "积分等级对象",required = true)
+            @RequestBody IntegralGrade integralGrade) {
+        Assert.notNull(integralGrade.getBorrowAmount(),ResponseEnum.BORROW_AMOUNT_NULL_ERROR);
+        boolean b = integralGradeService.save(integralGrade);
+        if (b) {
+            return R.ok().message("保存成功").data("result",true);
         }
-        return R.error().message("保存失败");
+        return R.error().message("保存失败").data("result",false);
     }
 
-    @ApiOperation("根据id获取积分等级")
     @GetMapping("/get/{id}")
+    @ApiOperation("根据ID获取积分等级")
     public R getById(
-            @ApiParam(value = "数据id", required = true, example = "1")
-            @PathVariable Long id
+            @ApiParam(value = "积分等级记录ID",required = true,example = "1")
+            @PathVariable Integer id
     ){
         IntegralGrade integralGrade = integralGradeService.getById(id);
-        if(integralGrade != null){
-            return R.ok().data("record", integralGrade);
-        }else{
-            return R.error().message("数据不存在");
+        if (integralGrade == null) {
+            return R.setR(ResponseEnum.QUERY_NO_DATA);
         }
+        return R.ok().data("record",integralGrade);
     }
 
-    @ApiOperation("更新积分等级")
     @PutMapping("/update")
-    public R updateById(
-            @ApiParam(value = "积分等级对象", required = true)
-            @RequestBody IntegralGrade integralGrade){
-        boolean result = integralGradeService.updateById(integralGrade);
-        if(result){
-            return R.ok().message("修改成功");
-        }else{
-            return R.error().message("修改失败");
+    @ApiOperation("更新积分等级")
+    public R update(
+            @ApiParam(value = "积分等级对象",required = true)
+            @RequestBody IntegralGrade integralGrade) {
+        boolean b = integralGradeService.updateById(integralGrade);
+        if (b) {
+            return R.ok().message("更新成功").data("result",true);
         }
+        return R.error().message("更新失败").data("result",false);
     }
 }
+
