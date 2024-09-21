@@ -1,17 +1,19 @@
-# 1. 目录介绍
+
+
+# 1、目录介绍
 
 ```
 D:\IdeaSpace\shangrongbao-------尚融宝项目根目录
 	--Backend 后端
 		 srb
  			srb-common
- 				service-base
- 					service-core
+ 			service-base
+ 			service-core
+ 			service-sms
 	--Front 前端
-		--基础知识
-			--前端基础知识
+		 srb-admin
+		 srb-site
 	--Server 服务器配置信息、数据库脚本等
-
 
 ```
 
@@ -19,9 +21,9 @@ D:\IdeaSpace\shangrongbao-------尚融宝项目根目录
 
 
 
-# 1. 系统配置
+# 2、系统配置
 
-## 1.1 srb后端系统
+## 2.1、 srb后端系统
 
 ```bash
 D:\IdeaSpace\srb\Backend\srb
@@ -32,15 +34,16 @@ springboot版本：  2.3.4.RELEASE
 ```
 
 ```bash
- 被依赖层次：
+依赖层次：
  srb
  	srb-common
  		service-base
  			service-core
+ 			service-sms
 ```
 
 ```sql
-#MySQL数据库： 
+#MySQL8数据库： 
 create schema srb_core collate utf8mb4_general_ci;
 ```
 
@@ -50,14 +53,9 @@ git remote add origin https://github.com/zmjjobs/srb.git
 git push -u origin master
 ```
 
-```http
-swagger2访问地址:
-http://localhost:8110/doc.html
-```
 
 
-
-## 1.2. srb-admin前端系统
+## 2.2、 srb前端系统
 
 ```bash
 node -v
@@ -68,9 +66,9 @@ npm config set registry https://registry.npm.taobao.org
 #查看npm配置信息
 npm config list
 
-#vscode打开 D:\VSCodeWorkSpace\srb-admin
+#vscode打开 D:\VSCodeWorkSpace
 
-cd D:\VSCodeWorkSpace\srb-admin
+cd D:\VSCodeWorkSpace
 #安装NPM,运行一次就可以
 npm install
 
@@ -83,23 +81,13 @@ google浏览器扩展程序，添加 Vue.jsDevtools.zip
 
 # 3、启动系统
 
-## 3.1、 启动MySQL、Nginx、Redis
-
-输入 cmd
-按快捷键 Ctrl + Shift + Enter 进入管理员模式
+## 3.1、 启动后端服务
 
 ```shell
-net start MySQL82
-D:
-cd D:\IdeaSpace\MyFactory\ShangRongBaoSystem\Server
-copy /y  nginx-srb.conf D:\MyServer\Nginx-1.14\conf\nginx.conf
-cd D:\MyServer\Nginx-1.14
-start nginx.exe
-cd D:\MyServer\redis
-start redis-server.exe
-curl http://localhost
-mysql -uroot -p123456
-
+#windows启动服务 如果不是管理员，需要右键以管理员身份运行
+cd D:\IdeaSpace\MySelf\shangrongbao\Backend
+#目前运行程序：MySQL8、Nginx、Redis
+backend.bat
 ```
 
 
@@ -134,6 +122,29 @@ npm run dev
 
 ```bash
 cd D:\IdeaSpace\MyFactory\ShangRongBaoSystem\Front\srb-site
+#根据package.json里面的"scripts":{"dev": "nuxt"...
 npm run dev
+```
+
+# 4.访问
+
+```http
+# service-core的swagger2访问地址:
+http://localhost:8110/doc.html
+```
+
+```http
+# service-sms的swagger2访问地址:
+http://localhost:8120/doc.html
+```
+
+```http
+# srb-site站点
+http://localhost:3000/
+```
+
+```http
+# srb-admin站点
+http://localhost:9528/
 ```
 

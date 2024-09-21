@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
 export default {
-  getPageList(pageIndex, pageSize, searchObj) {
+  getPageList(page, limit, searchObj) {
     return request({
-      url: `/admin/core/userInfo/listPage/${pageIndex}/${pageSize}`,
+      url: `/admin/core/userInfo/list/${page}/${limit}`,
       method: 'get',
       params: searchObj,
     })

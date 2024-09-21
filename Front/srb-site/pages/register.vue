@@ -108,6 +108,7 @@ export default {
       //倒计时
       this.timeDown()
 
+      //远程调用发送短信的接口
       this.$axios
         .$get('/api/sms/send/' + this.userInfo.mobile)
         .then((response) => {

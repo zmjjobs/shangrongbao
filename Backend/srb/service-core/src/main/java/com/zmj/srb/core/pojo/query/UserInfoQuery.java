@@ -15,4 +15,5 @@ public class UserInfoQuery {
 
     @ApiModelProperty("1.出借人 2.借款人")
     private Integer userType;
+
 }

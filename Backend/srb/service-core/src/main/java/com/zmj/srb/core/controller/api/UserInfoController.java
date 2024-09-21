@@ -1,6 +1,5 @@
 package com.zmj.srb.core.controller.api;
 
-
 import com.zmj.srb.base.util.JwtUtils;
 import com.zmj.srb.common.constant.RedisConstant;
 import com.zmj.srb.common.result.R;
@@ -16,7 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
