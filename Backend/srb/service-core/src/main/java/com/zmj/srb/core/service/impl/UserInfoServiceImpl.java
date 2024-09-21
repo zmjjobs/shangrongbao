@@ -107,10 +107,18 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         if (userInfoQuery != null) {
             userInfoQueryWrapper = new QueryWrapper<>();
             userInfoQueryWrapper
-                    .eq(StringUtils.isNotBlank(userInfoQuery.getMobile()),"mobile",userInfoQuery.getMobile())
+                    .like(StringUtils.isNotBlank(userInfoQuery.getMobile()),"mobile",userInfoQuery.getMobile())
                     .eq(userInfoQuery.getStatus() != null,"status",userInfoQuery.getStatus())
                     .eq(userInfoQuery.getUserType() != null,"user_type",userInfoQuery.getUserType());
         }
         return baseMapper.selectPage(pageParam,userInfoQueryWrapper);
+    }
+
+    @Override
+    public int lock(Long id, Integer status) {
+        UserInfo info = new UserInfo();
+        info.setId(id);
+        info.setStatus(status);
+        return baseMapper.updateById(info);
     }
 }

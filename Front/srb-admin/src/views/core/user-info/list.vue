@@ -76,6 +76,26 @@
           <el-tag v-else type="success" size="mini">正常</el-tag>
         </template>
       </el-table-column>
+      <el-table-column label="操作" align="center" width="200">
+        <template slot-scope="scope">
+          <el-button
+            v-if="scope.row.status == 1"
+            type="primary"
+            size="mini"
+            @click="lock(scope.row.id, 0)"
+          >
+            锁定
+          </el-button>
+          <el-button
+            v-else
+            type="danger"
+            size="mini"
+            @click="lock(scope.row.id, 1)"
+          >
+            解锁
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <!-- 分页组件 -->
@@ -83,7 +103,7 @@
       :current-page="page"
       :total="total"
       :page-size="limit"
-      :page-sizes="[1, 10, 20]"
+      :page-sizes="[10, 20]"
       style="padding: 30px 0"
       layout="total, sizes, prev, pager, next, jumper"
       @size-change="changePageSize"
@@ -113,6 +133,13 @@ export default {
   },
 
   methods: {
+    // 锁定和解锁
+    lock(id, status) {
+      userInfoApi.lock(id, status).then((response) => {
+        this.$message.success(response.message)
+        this.fetchData()
+      })
+    },
     fetchData() {
       userInfoApi
         .getPageList(this.page, this.limit, this.searchObj)

@@ -49,5 +49,21 @@ public class AdminUserInfoController {
         return R.ok().data("pageModel",pageModel);
     }
 
+    @PutMapping("/lock/{id}/{status}")
+    @ApiOperation("锁定或解锁状态")
+    public R lock(
+            @ApiParam(value = "记录ID",required = true)
+            @PathVariable("id")
+            Long id,
+            @ApiParam(value = "锁定状态(1:解锁 0:锁定)",required = true)
+                    @PathVariable("status")
+            Integer status) {
+            int ret = userInfoService.lock(id,status);
+            if (ret == 1) {
+                return R.ok().message(status==1 ? "解锁成功":"锁定成功");
+            }
+            return R.ok().message("这条记录已被其他人修改，请确认");
+    }
+
 }
 
