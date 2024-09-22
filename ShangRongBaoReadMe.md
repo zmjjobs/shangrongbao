@@ -87,6 +87,7 @@ google浏览器扩展程序，添加 Vue.jsDevtools.zip
 #windows启动服务 如果不是管理员，需要右键以管理员身份运行
 cd D:\IdeaSpace\MySelf\shangrongbao\Backend
 #目前运行程序：MySQL8、Nginx、Redis
+mysql8需管理员身份.bat
 backend.bat
 ```
 

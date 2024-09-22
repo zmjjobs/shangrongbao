@@ -17,4 +17,10 @@ export default {
       method: 'put',
     })
   },
+  getUserLoginRecordListTop(userId) {
+    return request({
+      url: `/admin/core/userLoginRecord/listTop/${userId}`,
+      method: 'get',
+    })
+  },
 }
