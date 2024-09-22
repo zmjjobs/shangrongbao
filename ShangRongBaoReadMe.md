@@ -85,7 +85,7 @@ google浏览器扩展程序，添加 Vue.jsDevtools.zip
 
 ```shell
 #windows启动服务 如果不是管理员，需要右键以管理员身份运行
-cd D:\IdeaSpace\MySelf\shangrongbao\Backend
+cd D:\IdeaSpace\MySelf\shangrongbao\Server
 #目前运行程序：MySQL8、Nginx、Redis
 mysql8需管理员身份.bat
 backend.bat
@@ -147,5 +147,11 @@ http://localhost:3000/
 ```http
 # srb-admin站点
 http://localhost:9528/
+```
+
+```http
+# Nacos登录
+http://localhost:8848/nacos
+#用户名密码：nacos/nacos
 ```
 
