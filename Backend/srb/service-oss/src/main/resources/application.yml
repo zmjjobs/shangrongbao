@@ -1,0 +1,20 @@
+server:
+  port: 8130 # 服务端口
+
+spring:
+  profiles:
+    active: dev # 环境设置
+  application:
+    name: service-oss # 服务名
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+#因无法push到git上，使用时修改下面内容
+ali0yun:
+  oss1:
+    endpoint2: 2oss-cn-hangzhou.aliyuncs.com
+    keyId3: 3LTAI5tATAyVrrSSYh7z6eV7G
+    keySecret4: 4B3UM535xBYaTdY6OWx3eptVvDuFfuc
+    bucketName5: 5srb-file-20221221
