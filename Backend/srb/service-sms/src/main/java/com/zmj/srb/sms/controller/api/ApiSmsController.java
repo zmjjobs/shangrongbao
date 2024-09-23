@@ -6,6 +6,7 @@ import com.zmj.srb.common.result.ResponseEnum;
 import com.zmj.srb.common.util.Assert;
 import com.zmj.srb.common.util.RandomUtils;
 import com.zmj.srb.common.util.RegexValidateUtils;
+import com.zmj.srb.sms.client.CoreUserInfoClient;
 import com.zmj.srb.sms.service.SmsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +31,9 @@ public class ApiSmsController {
     private SmsService smsService;
 
     @Resource
+    private CoreUserInfoClient coreUserInfoClient;
+
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     @ApiOperation("获取验证码")
@@ -42,6 +46,10 @@ public class ApiSmsController {
         Assert.notEmpty(mobile, ResponseEnum.MOBILE_NULL_ERROR);
         //MOBILE_ERROR(-203, "手机号不正确"),
         Assert.isTrue(RegexValidateUtils.checkCellphone(mobile), ResponseEnum.MOBILE_ERROR);
+
+        //判断手机号是否被注册
+        boolean isExist = coreUserInfoClient.checkMobile(mobile);
+        Assert.isTrue(isExist,ResponseEnum.MOBILE_EXIST_ERROR);
 
         //生成验证码 生成四位的随机数字
         String code = RandomUtils.getFourBitRandom();

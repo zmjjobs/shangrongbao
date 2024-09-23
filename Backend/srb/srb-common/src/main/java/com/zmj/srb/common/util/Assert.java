@@ -24,7 +24,7 @@ public abstract class Assert {
 
     public static void greaterThanZero(Object obj, ResponseEnum responseEnum) {
         if (obj == null) {
-            log.info("obj is null...............");
+            log.info("obj is greater than Zero...............");
             throw new BusinessException(responseEnum);
         }
         if (obj instanceof BigDecimal) {
@@ -72,7 +72,7 @@ public abstract class Assert {
      */
     public static void isTrue(boolean expression, ResponseEnum responseEnum) {
         if (!expression) {
-            log.info("fail...............");
+            log.info("false...............");
             throw new BusinessException(responseEnum);
         }
     }
