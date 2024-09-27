@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 //@ComponentScan({"com.zmj.srb","com.zmj.srb.common"})
 @ComponentScan({"com.zmj.srb"})
+//@EnableDiscoveryClient
 public class ServiceCoreApplication {
 
     public static void main(String[] args) {

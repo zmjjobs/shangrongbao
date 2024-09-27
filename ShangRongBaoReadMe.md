@@ -122,7 +122,7 @@ npm run dev
 ## 3.4、 启动前端srb-site模块
 
 ```bash
-cd D:\IdeaSpace\MyFactory\ShangRongBaoSystem\Front\srb-site
+cd D:\IdeaSpace\MySelf\shangrongbao\Front\srb-site
 #根据package.json里面的"scripts":{"dev": "nuxt"...
 npm run dev
 ```

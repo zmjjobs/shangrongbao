@@ -62,7 +62,7 @@
       -->
     <!-- 开发环境和测试环境,作用在com.zmj包下，打印INFO级别及以上的日志，输出到控制台 -->
     <springProfile name="dev,test">
-        <logger name="com.zmj" level="INFO">
+        <logger name="com.zmj" level="DEBUG">
             <appender-ref ref="CONSOLE" />
             <appender-ref ref="ROLLING_FILE" />
         </logger>
