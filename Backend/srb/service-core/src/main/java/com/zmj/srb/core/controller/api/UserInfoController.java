@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 @Api(tags = "会员接口")
 @RequestMapping("/api/core/userInfo")
 @Slf4j
-@CrossOrigin
+//@CrossOrigin
 public class UserInfoController {
     @Resource
     private StringRedisTemplate stringRedisTemplate;

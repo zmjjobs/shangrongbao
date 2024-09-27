@@ -25,7 +25,7 @@ import javax.annotation.Resource;
 @Api(tags = "会员管理")
 @RequestMapping("/admin/core/userInfo")
 @Slf4j
-@CrossOrigin
+//@CrossOrigin
 public class AdminUserInfoController {
 
     @Resource

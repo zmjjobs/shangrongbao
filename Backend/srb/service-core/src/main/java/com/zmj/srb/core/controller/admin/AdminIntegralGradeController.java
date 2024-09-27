@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2023-11-07
  */
 @Api(tags="积分等级管理")
-@CrossOrigin //自动跨域
+//@CrossOrigin //自动跨域
 @RestController
 @Slf4j
 @RequestMapping("/admin/core/integralGrade")
