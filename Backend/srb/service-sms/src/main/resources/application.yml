@@ -36,7 +36,7 @@ feign:
 
 logging:
   level:
-    com.atguigu.srb.sms.client.CoreUserInfoClient: DEBUG #以什么日志级别监控哪个接口
+    com.zmj.srb.sms.client.CoreUserInfoClient: DEBUG #以什么日志级别监控哪个接口
 
 #阿里云短信
 #因无法push到git上，使用时修改下面内容

@@ -1,0 +1,1 @@
+create schema hfb collate utf8mb4_general_ci;

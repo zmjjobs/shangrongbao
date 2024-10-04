@@ -6,10 +6,6 @@
 D:\IdeaSpace\shangrongbao-------尚融宝项目根目录
 	--Backend 后端
 		 srb
- 			srb-common
- 			service-base
- 			service-core
- 			service-sms
 	--Front 前端
 		 srb-admin
 		 srb-site
@@ -40,11 +36,6 @@ springboot版本：  2.3.4.RELEASE
  		service-base
  			service-core
  			service-sms
-```
-
-```sql
-#MySQL8数据库： 
-create schema srb_core collate utf8mb4_general_ci;
 ```
 
 ```bash
