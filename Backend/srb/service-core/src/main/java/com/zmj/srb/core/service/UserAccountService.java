@@ -1,7 +1,10 @@
 package com.zmj.srb.core.service;
 
-import com.zmj.srb.core.pojo.entity.UserAccount;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zmj.srb.core.pojo.entity.UserAccount;
+
+import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * <p>
@@ -12,5 +15,15 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-11-07
  */
 public interface UserAccountService extends IService<UserAccount> {
+
+    String commitCharge(BigDecimal chargeAmt, Long userId);
+
+    String notify(Map<String, Object> paramMap);
+
+    BigDecimal getAccount(Long userId);
+
+    String commitWithdraw(BigDecimal fetchAmt, Long userId);
+
+    void notifyWithdraw(Map<String, Object> paramMap);
 
 }

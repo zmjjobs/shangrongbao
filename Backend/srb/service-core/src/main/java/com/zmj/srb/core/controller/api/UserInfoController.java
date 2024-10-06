@@ -1,21 +1,21 @@
 package com.zmj.srb.core.controller.api;
 
 import com.zmj.srb.base.util.JwtUtils;
-import com.zmj.srb.common.constant.RedisConstant;
 import com.zmj.srb.common.result.R;
 import com.zmj.srb.common.result.ResponseEnum;
 import com.zmj.srb.common.util.Assert;
 import com.zmj.srb.common.util.RegexValidateUtils;
 import com.zmj.srb.core.pojo.vo.LoginVO;
 import com.zmj.srb.core.pojo.vo.RegisterVO;
+import com.zmj.srb.core.pojo.vo.UserIndexVO;
 import com.zmj.srb.core.pojo.vo.UserInfoVO;
 import com.zmj.srb.core.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,29 +27,37 @@ import javax.servlet.http.HttpServletRequest;
  * @author zhumengjun
  * @since 2023-11-07
  */
-@RestController
 @Api(tags = "会员接口")
+@RestController
 @RequestMapping("/api/core/userInfo")
 @Slf4j
 //@CrossOrigin
 public class UserInfoController {
+
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
+//    private RedisTemplate<String, String> redisTemplate;
+    private RedisTemplate redisTemplate;
 
     @Resource
     private UserInfoService userInfoService;
 
     @ApiOperation("会员注册")
     @PostMapping("/register")
-    public R register(@RequestBody RegisterVO registerVO) {
+    public R register(@RequestBody RegisterVO registerVO){
+
+        String mobile = registerVO.getMobile();
+        String password = registerVO.getPassword();
+        String code = registerVO.getCode();
+
+        Assert.notEmpty(mobile, ResponseEnum.MOBILE_NULL_ERROR);
+        Assert.notEmpty(password, ResponseEnum.PASSWORD_NULL_ERROR);
+        Assert.notEmpty(code, ResponseEnum.CODE_NULL_ERROR);
+        Assert.isTrue(RegexValidateUtils.checkCellphone(mobile), ResponseEnum.MOBILE_ERROR);
+
         //校验验证码是否正确
-        String key = RedisConstant.RedisKey.SMS_CODE_PREFIX.getCode() + registerVO.getMobile();
-        String codeGen = stringRedisTemplate.opsForValue().get(key);
-        log.info("codeGen={}",codeGen);
-        Assert.equals(registerVO.getCode(),codeGen, ResponseEnum.CODE_ERROR);
-        Assert.notEmpty(registerVO.getMobile(),ResponseEnum.MOBILE_NULL_ERROR);
-        Assert.notEmpty(registerVO.getPassword(),ResponseEnum.PASSWORD_NULL_ERROR);
-        Assert.isTrue(RegexValidateUtils.checkCellphone(registerVO.getMobile()),ResponseEnum.MOBILE_ERROR);
+        String codeGen = (String)redisTemplate.opsForValue().get("srb:sms:code:" + mobile);
+//        String codeGen = redisTemplate.opsForValue().get("srb:sms:code:" + mobile);
+        Assert.equals(code, codeGen, ResponseEnum.CODE_ERROR);
 
         //注册
         userInfoService.register(registerVO);
@@ -59,34 +67,48 @@ public class UserInfoController {
 
     @ApiOperation("会员登录")
     @PostMapping("/login")
-    public R register(@RequestBody LoginVO loginVO, HttpServletRequest request) {
-        Assert.notEmpty(loginVO.getMobile(),ResponseEnum.MOBILE_NULL_ERROR);
-        Assert.notEmpty(loginVO.getPassword(),ResponseEnum.PASSWORD_NULL_ERROR);
+    public R login(@RequestBody LoginVO loginVO, HttpServletRequest request){
+
+        String mobile = loginVO.getMobile();
+        String password = loginVO.getPassword();
+
+        Assert.notEmpty(mobile, ResponseEnum.MOBILE_NULL_ERROR);
+        Assert.notEmpty(password, ResponseEnum.PASSWORD_NULL_ERROR);
 
         String ip = request.getRemoteAddr();
-        loginVO.setIp(ip);
-        UserInfoVO userInfoVO = userInfoService.login(loginVO);
-        return R.ok().data("userInfo",userInfoVO);
+        UserInfoVO userInfoVO = userInfoService.login(loginVO, ip);
+
+        return R.ok().data("userInfo", userInfoVO);
     }
 
-    @ApiOperation("校验Token")
+    @ApiOperation("校验令牌")
     @GetMapping("/checkToken")
     public R checkToken(HttpServletRequest request) {
+
         String token = request.getHeader("token");
-        boolean isOK = JwtUtils.checkToken(token);
-        if (isOK) {
+        boolean result = JwtUtils.checkToken(token);
+
+        if(result){
             return R.ok();
+        }else{
+            return R.setR(ResponseEnum.LOGIN_AUTH_ERROR);
         }
-        return R.setR(ResponseEnum.LOGIN_MOBILE_ERROR);
+
     }
 
     @ApiOperation("校验手机号是否注册")
     @GetMapping("/checkMobile/{mobile}")
-    public boolean checkMobile(
-            @ApiParam(value = "手机号",required = true)
-            @PathVariable String mobile) {
-        boolean isExist = userInfoService.checkMobile(mobile);
-        return isExist;
+    public boolean checkMobile(@PathVariable String mobile){
+        return userInfoService.checkMobile(mobile);
+    }
+
+    @ApiOperation("获取个人空间用户信息")
+    @GetMapping("/auth/getIndexUserInfo")
+    public R getIndexUserInfo(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        Long userId = JwtUtils.getUserId(token);
+        UserIndexVO userIndexVO = userInfoService.getIndexUserInfo(userId);
+        return R.ok().data("userIndexVO", userIndexVO);
     }
 }
 

@@ -11,10 +11,12 @@ import com.zmj.srb.core.hfb.RequestHelper;
 import com.zmj.srb.core.mapper.UserBindMapper;
 import com.zmj.srb.core.mapper.UserInfoMapper;
 import com.zmj.srb.core.pojo.entity.UserBind;
+import com.zmj.srb.core.pojo.entity.UserInfo;
 import com.zmj.srb.core.pojo.vo.UserBindVO;
 import com.zmj.srb.core.service.UserBindService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -84,16 +86,38 @@ public class UserBindServiceImpl extends ServiceImpl<UserBindMapper, UserBind> i
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void notify(Map<String, Object> paramMap) {
-        String bindCode = (String) paramMap.get("bindCode");
-        String agentUserId = (String) paramMap.get("agentUserId");
-        QueryWrapper<UserBind> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",agentUserId);
-        //更新用户绑定
-        UserBind userBind_db = baseMapper.selectOne(queryWrapper);
-        userBind_db.setBindCode(bindCode);
-        userBind_db.setStatus(UserBindEnum.BIND_OK.getStatus());
-        baseMapper.updateById(userBind_db);
+
+        String bindCode = (String)paramMap.get("bindCode");
+        String agentUserId = (String)paramMap.get("agentUserId");
+
+        //根据user_id查询user_bind记录
+        QueryWrapper<UserBind> userBindQueryWrapper = new QueryWrapper<>();
+        userBindQueryWrapper.eq("user_id", agentUserId);
+
+        //更新用户绑定表
+        UserBind userBind = baseMapper.selectOne(userBindQueryWrapper);
+        userBind.setBindCode(bindCode);
+        userBind.setStatus(UserBindEnum.BIND_OK.getStatus());
+        baseMapper.updateById(userBind);
+
+        //更新用户表
+        UserInfo userInfo = userInfoMapper.selectById(agentUserId);
+        userInfo.setBindCode(bindCode);
+        userInfo.setName(userBind.getName());
+        userInfo.setIdCard(userBind.getIdCard());
+        userInfo.setBindStatus(UserBindEnum.BIND_OK.getStatus());
+        userInfoMapper.updateById(userInfo);
+    }
+
+    @Override
+    public String getBindCodeByUserId(Long userId) {
+
+        QueryWrapper<UserBind> userBindQueryWrapper = new QueryWrapper<>();
+        userBindQueryWrapper.eq("user_id", userId);
+        UserBind userBind = baseMapper.selectOne(userBindQueryWrapper);
+        return userBind.getBindCode();
     }
 }

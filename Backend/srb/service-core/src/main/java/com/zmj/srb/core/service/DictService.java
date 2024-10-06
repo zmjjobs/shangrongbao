@@ -19,4 +19,6 @@ public interface DictService extends IService<Dict> {
     void importData(MultipartFile file,Integer operationType) throws IOException;
 
     List<Dict> listByParentId(Long parentId);
+
+    List<Dict> listByDictCode(String dictCode);
 }

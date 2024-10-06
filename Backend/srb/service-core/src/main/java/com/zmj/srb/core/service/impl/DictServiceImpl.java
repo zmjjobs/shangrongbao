@@ -105,6 +105,14 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         return dictList;
     }
 
+    @Override
+    public List<Dict> listByDictCode(String dictCode) {
+        QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dict_code",dictCode);
+        Dict dict_db = baseMapper.selectOne(queryWrapper);
+        return this.listByParentId(dict_db.getId());
+    }
+
     /**
      * groupByParentId统计子ID个数
      * @param ids  Id或ParentId，只统计

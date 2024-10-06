@@ -2,11 +2,12 @@ package com.zmj.srb.core.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zmj.srb.core.pojo.entity.UserInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zmj.srb.core.pojo.entity.UserInfo;
 import com.zmj.srb.core.pojo.query.UserInfoQuery;
 import com.zmj.srb.core.pojo.vo.LoginVO;
 import com.zmj.srb.core.pojo.vo.RegisterVO;
+import com.zmj.srb.core.pojo.vo.UserIndexVO;
 import com.zmj.srb.core.pojo.vo.UserInfoVO;
 
 /**
@@ -21,11 +22,17 @@ public interface UserInfoService extends IService<UserInfo> {
 
     void register(RegisterVO registerVO);
 
-    UserInfoVO login(LoginVO loginVO);
+    UserInfoVO login(LoginVO loginVO, String ip);
+
 
     IPage<UserInfo> listPage(Page<UserInfo> pageParam, UserInfoQuery userInfoQuery);
 
-    int lock(Long id, Integer status);
+    void lock(Long id, Integer status);
 
     boolean checkMobile(String mobile);
+
+    UserIndexVO getIndexUserInfo(Long userId);
+
+    String getMobileByBindCode(String bindCode);
 }
+

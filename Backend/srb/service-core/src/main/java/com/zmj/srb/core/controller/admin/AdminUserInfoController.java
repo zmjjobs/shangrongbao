@@ -21,8 +21,8 @@ import javax.annotation.Resource;
  * @author zhumengjun
  * @since 2023-11-07
  */
-@RestController
 @Api(tags = "会员管理")
+@RestController
 @RequestMapping("/admin/core/userInfo")
 @Slf4j
 //@CrossOrigin
@@ -32,38 +32,32 @@ public class AdminUserInfoController {
     private UserInfoService userInfoService;
 
     @ApiOperation("获取会员分页列表")
-    @GetMapping("/listPage/{page}/{limit}")
+    @GetMapping("/list/{page}/{limit}")
     public R listPage(
-            @ApiParam(value = "当前页",required = true)
+            @ApiParam(value = "当前页码", required = true)
             @PathVariable Long page,
-            @ApiParam(value = "每页记录数",defaultValue = "10")
+            @ApiParam(value = "每页记录数", required = true)
             @PathVariable Long limit,
-            @ApiParam(value = "查询对象")
-            UserInfoQuery userInfoQuery
-    ) {
-        Page<UserInfo> pageParam = new Page<>(page,limit);
-        IPage<UserInfo> pageModel =  userInfoService.listPage(pageParam,userInfoQuery);
-        for (UserInfo user : pageModel.getRecords()) {
-            user.setPassword(null);
-        }
-        return R.ok().data("pageModel",pageModel);
+            @ApiParam(value = "查询对象", required = false)
+                    UserInfoQuery userInfoQuery
+
+    ){
+        Page<UserInfo> pageParam = new Page<>(page, limit);
+        IPage<UserInfo> pageModel = userInfoService.listPage(pageParam, userInfoQuery);
+        return R.ok().data("pageModel", pageModel);
     }
 
+    @ApiOperation("锁定和解锁")
     @PutMapping("/lock/{id}/{status}")
-    @ApiOperation("锁定或解锁状态")
     public R lock(
-            @ApiParam(value = "记录ID",required = true)
-            @PathVariable("id")
-            Long id,
-            @ApiParam(value = "锁定状态(1:解锁 0:锁定)",required = true)
-                    @PathVariable("status")
-            Integer status) {
-            int ret = userInfoService.lock(id,status);
-            if (ret == 1) {
-                return R.ok().message(status==1 ? "解锁成功":"锁定成功");
-            }
-            return R.ok().message("这条记录已被其他人修改，请确认");
-    }
+            @ApiParam(value = "用户id", required = true)
+            @PathVariable("id") Long id,
 
+            @ApiParam(value = "锁定状态（0：锁定 1：正常）", required = true)
+            @PathVariable("status") Integer status){
+
+        userInfoService.lock(id, status);
+        return R.ok().message(status==1?"解锁成功":"锁定成功");
+    }
 }
 

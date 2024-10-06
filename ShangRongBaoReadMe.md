@@ -146,3 +146,8 @@ http://localhost:8848/nacos
 #用户名密码：nacos/nacos
 ```
 
+```http
+#RabbitMQ
+http://192.168.0.139:15672/
+```
+

@@ -2,6 +2,7 @@ package com.zmj.srb.core.service.impl;
 
 import com.zmj.srb.core.pojo.entity.Borrower;
 import com.zmj.srb.core.mapper.BorrowerMapper;
+import com.zmj.srb.core.pojo.vo.BorrowerVO;
 import com.zmj.srb.core.service.BorrowerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -17,4 +18,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class BorrowerServiceImpl extends ServiceImpl<BorrowerMapper, Borrower> implements BorrowerService {
 
+    @Override
+    public void saveBorrowerVOByUserId(BorrowerVO borrowerVO, Long userId) {
+        
+    }
 }
