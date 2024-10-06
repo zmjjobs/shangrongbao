@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 @ApiModel(description = "短信")
 public class SmsDTO {
-
     @ApiModelProperty(value = "手机号")
     private String mobile;
 

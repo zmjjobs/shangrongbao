@@ -2,6 +2,7 @@ package com.zmj.srb.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zmj.srb.base.dto.SmsDTO;
 import com.zmj.srb.common.result.ResponseEnum;
 import com.zmj.srb.common.util.Assert;
 import com.zmj.srb.core.enums.TransTypeEnum;
@@ -18,6 +19,8 @@ import com.zmj.srb.core.service.UserAccountService;
 import com.zmj.srb.core.service.UserBindService;
 import com.zmj.srb.core.service.UserInfoService;
 import com.zmj.srb.core.util.LendNoUtils;
+import com.zmj.srb.rabbitmq.constant.MQConst;
+import com.zmj.srb.rabbitmq.service.MQService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +56,9 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
 
     @Resource
     private UserInfoService userInfoService;
+
+    @Resource
+    private MQService mqService;
 
     @Override
     public String commitCharge(BigDecimal chargeAmt, Long userId) {
@@ -105,6 +111,14 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
                 "充值啦");
 
         transFlowService.saveTransFlow(transFlowBO);
+
+        //发消息
+        log.info("发消息");
+        String mobile = userInfoService.getMobileByBindCode(bindCode);
+        SmsDTO smsDTO = new SmsDTO();
+        smsDTO.setMobile(mobile);
+        smsDTO.setMessage("充值成功");
+        mqService.sendMessage(MQConst.EXCHANGE_TOPIC_SMS, MQConst.ROUTING_SMS_ITEM, smsDTO);
 
         return "success";
     }

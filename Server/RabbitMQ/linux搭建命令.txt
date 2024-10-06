@@ -1,0 +1,19 @@
+#安装
+rpm -ivh erlang-21.3.8.9-1.el7.x86_64.rpm
+rpm -ivh socat-1.7.3.2-1.el6.lux.x86_64.rpm
+rpm -ivh rabbitmq-server-3.8.1-1.el7.noarch.rpm
+
+#启动管理插件
+rabbitmq-plugins enable rabbitmq_management
+
+#启动rabbitmq
+systemctl start rabbitmq-server.service
+
+#添加管理员账户密码
+rabbitmqctl add_user admin admin
+#分配角色
+rabbitmqctl set_user_tags admin administrator
+#修改密码，要修改，否则后面无法登录
+rabbitmqctl change_password admin 123456
+#查看用户列表
+rabbitmqctl list_users

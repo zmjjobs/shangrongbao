@@ -1,0 +1,30 @@
+2024-10-06 16:12:36,776 INFO DEFAULT_GROUP@@service-gateway {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.0.102:80:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2024-10-06 16:12:36,779 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@service-gateway, ips: 192.168.0.102:80_true,
+
+2024-10-06 16:12:59,326 INFO DEFAULT_GROUP@@service-oss {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.0.102:8130:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2024-10-06 16:12:59,326 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@service-oss, ips: 192.168.0.102:8130_true,
+
+2024-10-06 16:13:03,704 INFO DEFAULT_GROUP@@service-sms {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.0.102:8120:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2024-10-06 16:13:03,704 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@service-sms, ips: 192.168.0.102:8120_true,
+
+2024-10-06 16:13:08,187 INFO DEFAULT_GROUP@@service-core {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.0.102:8110:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2024-10-06 16:13:08,187 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@service-core, ips: 192.168.0.102:8110_true,
+
+2024-10-06 16:28:46,867 INFO DEFAULT_GROUP@@service-sms {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.0.102:8120:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2024-10-06 16:28:46,867 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@service-sms, ips: 
+
+2024-10-06 16:29:10,563 INFO DEFAULT_GROUP@@service-sms {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.0.102:8120:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2024-10-06 16:29:10,563 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@service-sms, ips: 192.168.0.102:8120_true,
+
+2024-10-06 16:40:58,737 INFO {POS} {IP-DISABLED} valid: 192.168.0.102:8110@DEFAULT@DEFAULT_GROUP@@service-core, region: unknown, msg: client timeout after 15000, last beat: 1728204043009
+
+2024-10-06 16:41:13,937 INFO DEFAULT_GROUP@@service-core {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.0.102:8110:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2024-10-06 16:41:13,937 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@service-core, ips: 
+

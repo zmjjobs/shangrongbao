@@ -10,5 +10,5 @@ cd D:\MyServer\redis
 start redis-server.exe
 :: curl http://localhost
 
-cd D:\IdeaSpace\MySelf\shangrongbao\Server\nacos-server-1.4.1\bin
+cd D:\IdeaSpace\MySelf\shangrongbao\Server\nacos-server-1.4.0\bin
 startup.cmd -m standalone
